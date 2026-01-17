@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: experimentation-sim-lab
+Version: 0.1.0
+Summary: Simulation lab for validating A/B testing methods (Type I error, power).
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
