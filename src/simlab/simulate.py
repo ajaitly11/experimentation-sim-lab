@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass
-from typing import Callable, List, Sequence, Tuple
+from typing import Callable
 
 from abtk import conversion_diff, mean_diff
 
@@ -45,7 +45,9 @@ def _run_trials(
         if p < alpha:
             rejections += 1
 
-    return SimulationResult(trials=trials, alpha=alpha, rejection_rate=rejections / trials)
+    return SimulationResult(
+        trials=trials, alpha=alpha, rejection_rate=rejections / trials
+    )
 
 
 def simulate_type1_error_mean(
