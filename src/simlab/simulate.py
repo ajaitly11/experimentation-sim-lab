@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import Callable
 
 from abtk import conversion_diff, mean_diff
+from abtk import ratio_diff
 
 
 @dataclass(frozen=True)
@@ -138,6 +139,78 @@ def simulate_power_conversion(
         a = [1 if rng.random() < rate_a else 0 for _ in range(n_per_group)]
         b = [1 if rng.random() < rate_b else 0 for _ in range(n_per_group)]
         res = conversion_diff(a, b, alpha=alpha)
+        return float(res.p_value)
+
+    return _run_trials(one_trial, trials=trials, alpha=alpha, seed=seed)
+
+
+def simulate_type1_error_ratio(
+    *,
+    n_per_group: int,
+    purchase_probability: float,
+    purchase_amount: float,
+    trials: int = 2000,
+    alpha: float = 0.05,
+    seed: int = 0,
+) -> SimulationResult:
+    """
+    Estimate Type I error for a ratio metric under no real effect.
+
+    We simulate a realistic "revenue per visitor" setup:
+    - Each user has denominator = 1 visitor
+    - Numerator is either 0 (no purchase) or purchase_amount (purchase)
+
+    Both groups use the same purchase probability, so the true effect is 0.
+    """
+
+    def one_trial(rng: random.Random) -> float:
+        a_num = [
+            purchase_amount if rng.random() < purchase_probability else 0.0
+            for _ in range(n_per_group)
+        ]
+        b_num = [
+            purchase_amount if rng.random() < purchase_probability else 0.0
+            for _ in range(n_per_group)
+        ]
+        a_den = [1.0] * n_per_group
+        b_den = [1.0] * n_per_group
+
+        res = ratio_diff(a_num, a_den, b_num, b_den, method="delta", alpha=alpha)
+        return float(res.p_value)
+
+    return _run_trials(one_trial, trials=trials, alpha=alpha, seed=seed)
+
+
+def simulate_power_ratio(
+    *,
+    n_per_group: int,
+    purchase_probability_a: float,
+    purchase_probability_b: float,
+    purchase_amount: float,
+    trials: int = 2000,
+    alpha: float = 0.05,
+    seed: int = 0,
+) -> SimulationResult:
+    """
+    Estimate power for a ratio metric when group B has a different purchase probability.
+
+    This uses the same revenue-per-visitor data generating process as simulate_type1_error_ratio,
+    but with different purchase probabilities in A and B.
+    """
+
+    def one_trial(rng: random.Random) -> float:
+        a_num = [
+            purchase_amount if rng.random() < purchase_probability_a else 0.0
+            for _ in range(n_per_group)
+        ]
+        b_num = [
+            purchase_amount if rng.random() < purchase_probability_b else 0.0
+            for _ in range(n_per_group)
+        ]
+        a_den = [1.0] * n_per_group
+        b_den = [1.0] * n_per_group
+
+        res = ratio_diff(a_num, a_den, b_num, b_den, method="delta", alpha=alpha)
         return float(res.p_value)
 
     return _run_trials(one_trial, trials=trials, alpha=alpha, seed=seed)
