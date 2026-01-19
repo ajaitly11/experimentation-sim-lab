@@ -130,3 +130,17 @@ print(result)
 
 If the effect is large enough (and the sample size is large enough),
 the rejection rate will be meaningfully higher than 0.05.
+
+---
+
+## Mini report script
+
+You can run a small set of simulations and print a compact summary:
+
+```bash
+python -m simlab.report
+```
+This prints Type I error and power estimates for:
+	- a mean metric
+	- a conversion metric
+	- a ratio metric (revenue per visitor)
