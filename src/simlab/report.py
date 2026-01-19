@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 
 from simlab.simulate import (
     simulate_power_conversion,
