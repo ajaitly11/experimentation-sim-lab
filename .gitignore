@@ -1,0 +1,34 @@
+# Python virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Python cache / bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Packaging / build outputs
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Test / coverage outputs
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Jupyter / notebooks (optional)
+.ipynb_checkpoints/
+
+# OS/editor noise
+.DS_Store
+.idea/
+.vscode/
+
+# Logs
+*.log
