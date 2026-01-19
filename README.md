@@ -69,7 +69,7 @@ pip install -e .
 pip install pytest ruff black pre-commit
 ```
 
-This repo depends on [abtk](https://github.com/ajaitly11/ab-experimentation-toolkit). 
+This repo depends on [abtk](https://github.com/ajaitly11/ab-experimentation-toolkit).
 If you have the ab-experimentation-toolkit repo next to this one:
 
 ```bash
@@ -128,5 +128,5 @@ result = simulate_power_conversion(
 print(result)
 ```
 
-If the effect is large enough (and the sample size is large enough), 
+If the effect is large enough (and the sample size is large enough),
 the rejection rate will be meaningfully higher than 0.05.
