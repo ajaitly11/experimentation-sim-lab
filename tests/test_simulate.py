@@ -3,6 +3,8 @@ from simlab.simulate import (
     simulate_power_mean,
     simulate_type1_error_conversion,
     simulate_type1_error_mean,
+    simulate_power_ratio,
+    simulate_type1_error_ratio,
 )
 
 
@@ -68,5 +70,39 @@ def test_power_conversion_increases_with_lift():
         trials=800,
         alpha=0.05,
         seed=3,
+    )
+    assert high.rejection_rate > low.rejection_rate
+
+
+def test_type1_error_ratio_is_reasonable():
+    res = simulate_type1_error_ratio(
+        n_per_group=500,
+        purchase_probability=0.05,
+        purchase_amount=120.0,
+        trials=800,
+        alpha=0.05,
+        seed=4,
+    )
+    assert 0.02 <= res.rejection_rate <= 0.08
+
+
+def test_power_ratio_increases_with_lift():
+    low = simulate_power_ratio(
+        n_per_group=500,
+        purchase_probability_a=0.05,
+        purchase_probability_b=0.052,
+        purchase_amount=120.0,
+        trials=800,
+        alpha=0.05,
+        seed=5,
+    )
+    high = simulate_power_ratio(
+        n_per_group=500,
+        purchase_probability_a=0.05,
+        purchase_probability_b=0.06,
+        purchase_amount=120.0,
+        trials=800,
+        alpha=0.05,
+        seed=5,
     )
     assert high.rejection_rate > low.rejection_rate
