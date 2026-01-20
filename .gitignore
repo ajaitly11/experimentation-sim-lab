@@ -32,3 +32,7 @@ coverage.xml
 
 # Logs
 *.log
+
+# Simulation outputs
+results/*
+!results/.gitkeep
