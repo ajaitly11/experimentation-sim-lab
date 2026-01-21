@@ -169,3 +169,15 @@ Power should generally increase as sample size increases.
 
 This is a practical way to sanity-check the behaviour of a testing method without relying
 only on theory.
+
+## Why confidence intervals appear in simulation output
+
+A simulation estimate like “power = 0.62” is based on a finite number of trials.
+If you re-run the simulation with a different random seed, the estimate will move a bit.
+
+A rejection rate is a proportion:
+- each trial either rejects (p-value < alpha) or does not reject
+- across many trials we count rejections and divide by the number of trials
+
+This makes it natural to report a confidence interval for the proportion.
+The report script uses a Wilson interval, which behaves well even when the estimate is near 0 or 1.
