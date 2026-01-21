@@ -9,10 +9,16 @@ from simlab.simulate import (
     simulate_type1_error_mean,
     simulate_type1_error_ratio,
 )
+from simlab.intervals import wilson_interval
 
 
 def _fmt(x: float) -> str:
     return f"{x:.3f}"
+
+
+def _fmt_interval(successes: int, trials: int) -> str:
+    iv = wilson_interval(successes, trials, confidence=0.95)
+    return f"{iv.estimate:.3f} (95% CI {iv.low:.3f} to {iv.high:.3f})"
 
 
 def print_report() -> None:
@@ -44,7 +50,7 @@ def print_report() -> None:
         alpha=alpha,
         seed=1,
     )
-    print("  Type I error:", _fmt(t1.rejection_rate))
+    print("  Type I error:", _fmt_interval(t1.successes, t1.trials))
     print("  Power:", _fmt(pw.rejection_rate))
     print()
 
@@ -64,7 +70,7 @@ def print_report() -> None:
         alpha=alpha,
         seed=3,
     )
-    print("  Type I error:", _fmt(t1c.rejection_rate))
+    print("  Type I error:", _fmt_interval(t1c.successes, t1c.trials))
     print("  Power:", _fmt(pwc.rejection_rate))
     print()
 
@@ -86,7 +92,7 @@ def print_report() -> None:
         alpha=alpha,
         seed=5,
     )
-    print("  Type I error:", _fmt(t1r.rejection_rate))
+    print("  Type I error:", _fmt_interval(t1r.successes, t1r.trials))
     print("  Power:", _fmt(pwr.rejection_rate))
     print()
 
