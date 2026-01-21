@@ -19,6 +19,9 @@ class SimulationResult:
     alpha:
         The p-value threshold used for "statistical significance".
 
+    successes:
+        How many trials met the chosen threshold (for example, p_value < alpha).
+
     rejection_rate:
         Fraction of trials where p_value < alpha.
 
@@ -27,6 +30,7 @@ class SimulationResult:
     """
 
     trials: int
+    successes: int
     alpha: float
     rejection_rate: float
 
@@ -47,7 +51,10 @@ def _run_trials(
             rejections += 1
 
     return SimulationResult(
-        trials=trials, alpha=alpha, rejection_rate=rejections / trials
+        trials=trials,
+        successes=rejections,
+        alpha=alpha,
+        rejection_rate=rejections / trials,
     )
 
 
