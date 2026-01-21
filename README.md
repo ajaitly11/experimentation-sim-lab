@@ -144,3 +144,28 @@ This prints Type I error and power estimates for:
 	- a mean metric
 	- a conversion metric
 	- a ratio metric (revenue per visitor)
+
+## Parameter sweep (power and Type I error across sample sizes)
+
+You can run a small sweep across sample sizes and write results to a CSV file:
+
+```bash
+python -m simlab.sweep
+```
+
+This writes:
+	-	results/sweep.csv
+
+The CSV contains one row per sample size and reports:
+	-	estimated Type I error (under no real effect)
+	-	estimated power (under a real effect)
+
+How to interpret-the output
+	-	Under no real effect, the rejection rate should be close to alpha (for example, ~0.05).
+If it is much higher, the test is too “eager” and produces too many false positives.
+If it is much lower, the test is overly conservative.
+	-	Under a real effect, the rejection rate is the estimated power.
+Power should generally increase as sample size increases.
+
+This is a practical way to sanity-check the behaviour of a testing method without relying
+only on theory.
